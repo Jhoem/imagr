@@ -1,0 +1,22 @@
+{
+    "name": "jhoemer/imgr",
+    "description": "A cli app the simulates a simple graphical editor",
+    "type": "project",
+    "require-dev": {
+        "phpunit/phpunit": "^5.5"
+    },
+    "authors": [
+        {
+            "name": "Jhoem",
+            "email": "jhoe704@gmail.com"
+        }
+    ],
+    "scripts": {
+        "test": "phpunit tests"
+    },
+    "autoload" : {
+        "psr-4": {
+            "Library\\": "library/"
+        }
+    }
+}
