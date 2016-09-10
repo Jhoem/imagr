@@ -1,5 +1,7 @@
 <?php
-use \Library\Editor;
+require './Library/Editor.php';
+
+use Library\Editor;
 
 class Console
 {
@@ -8,7 +10,7 @@ class Console
 
     public function __construct()
     {
-        $this->editor = new Editor();
+        $this->editor = new Editor;
         $this->allowedCommands = [
             'I' => 'create', /* */
             'C' => 'clear',
@@ -23,6 +25,7 @@ class Console
 
     public function start()
     {
+        $this->printn(array_keys($this->allowedCommands));
         $this->printn('Starting console.');
         $this->readCommand();
         $this->printn('Closing console.');
@@ -39,18 +42,18 @@ class Console
         $command_args = explode(' ', trim(preg_replace('/\s+/', ' ', $line)));
         $command = array_shift($command_args);
 
-        if ($command === 'x') {
-            return;
+        if ($command === 'X') {
+            exit;
         }
 
-        $this->printn($command_args);
+        // $this->printn($command);
+        // $this->printn($command_args);
 
-        $this->editor->command = $command;
-
-        if (!in_array($this->editor->command, $this->allowedCommands)) {
+        if (!in_array($command, array_keys($this->allowedCommands))) {
             $this->printn($this->editor->command . ' is not a valid command');
         } else {
-            $this->printn($this->$allowedCommands[$command]($command_args));
+            $function = $this->allowedCommands[$command];
+            $this->editor->$function(...$command_args);
         }
 
         return $this->readCommand();
