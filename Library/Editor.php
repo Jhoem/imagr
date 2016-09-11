@@ -91,7 +91,7 @@ class Editor
             return false;
         }
 
-        $this->canvas[$y-1][$x-1] = $color;
+        $this->canvas[$y-1][$x-1] = strtoupper($color);
 
         return $this->canvas;
     }
@@ -147,6 +147,12 @@ class Editor
             'color' => [$color, 'letter']
         ]);
 
+        if (is_string($validation)) {
+            echo $validation;
+
+            return false;
+        }
+
         if (!($this->isAllowedHeight($y1, 1, $this->height)
             && $this->isAllowedHeight($y2, 1, $this->height))) {
                 return false;
@@ -173,15 +179,32 @@ class Editor
             'Y' => [$y, 'number'],
             'color' => [$newColor, 'letter']
         ]);
+
+        if (is_string($validation)) {
+            echo $validation;
+
+            return false;
+        }
+
         if (!($this->isInRange($x, $y))) {
             return false;
         }
 
         $color = $this->getDotColor($x, $y);
 
-        if ($color === $originalColor || $color === $newColor){
+        if (!$originalColor) {
+            $originalColor = $color;
+        }
+
+        if ($color === $newColor){
             return false;
         }
+
+        if ($color !== $originalColor){
+            return false;
+        }
+
+
 
         $this->setDotColor($x, $y, $newColor);
 

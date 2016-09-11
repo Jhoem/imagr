@@ -130,10 +130,10 @@ class EditorTest extends TestCase
         $expected = [
             ['G', 'G', 'G', 'G', 'G', 'F' ],
             ['G', 'H', 'H', 'H', 'A', 'F' ],
-            ['G', 'G', 'G', 'F', 'A', 'F' ],
-            ['G', 'G', 'F', 'F', 'A', 'F' ],
-            ['G', 'F', 'F', 'F', 'A', 'F' ],
-            ['F', 'F', 'F', 'F', 'A', 'F' ],
+            ['G', 'G', 'G', 'D', 'A', 'F' ],
+            ['G', 'G', 'D', 'D', 'A', 'F' ],
+            ['G', 'D', 'D', 'D', 'A', 'F' ],
+            ['D', 'D', 'D', 'D', 'A', 'F' ],
         ];
 
         $this->editor->fillColor(3, 4, 'G');
@@ -146,6 +146,7 @@ class EditorTest extends TestCase
         $this->editor->fillColor(6, 6, 'F');
         $this->editor->horizontalFill(2, 5, 2, 'H');
         $this->editor->verticalFill(5, 2, 6, 'A');
+        $this->editor->fillColor(4, 3, 'D');
         $this->assertSame($expected, $this->editor->showImage());
         $this->editor->clear();
         $this->assertSame($this->clear, $this->editor->showImage());
