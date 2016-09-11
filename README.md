@@ -29,5 +29,5 @@
 ## Running tests
 
 ```sh
-    composer tests
+    composer test
 ```
