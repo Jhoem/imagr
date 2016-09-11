@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 require './Library/Editor.php';
 
@@ -81,7 +82,7 @@ class Console
             return;
         }
 
-        if ($command === 'H') {
+        if ($command === '?') {
             $this->showCommands();
 
             return $this->readCommand();
