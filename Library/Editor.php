@@ -20,6 +20,17 @@ class Editor
 
     public function create($width, $height)
     {
+        $validation = $this->isValidParameters([
+            'width' => [$width, 'number'],
+            'height' => [$height, 'number']
+        ]);
+
+        if (is_string($validation)) {
+            echo $validation;
+
+            return false;
+        }
+
         if (!$this->isAllowedDimensions($width, $height)) {
             return false;
         }
@@ -64,6 +75,18 @@ class Editor
 
     public function setDotColor($x, $y, $color)
     {
+        $validation = $this->isValidParameters([
+            'X' => [$x, 'number'],
+            'Y' => [$y, 'number'],
+            'color' => [$color, 'letter']
+        ]);
+
+        if (is_string($validation)) {
+            echo $validation;
+
+            return false;
+        }
+
         if (!$this->isInRange($x, $y)) {
             return false;
         }
@@ -82,8 +105,21 @@ class Editor
         return $this->canvas[$y-1][$x-1];
     }
 
-    public function horizontalFill($row, $x1, $x2, $color)
+    public function horizontalFill($x1, $x2, $row, $color)
     {
+        $validation = $this->isValidParameters([
+            'X1' => [$x1, 'number'],
+            'X2' => [$x2, 'number'],
+            'row' => [$row, 'number'],
+            'color' => [$color, 'letter']
+        ]);
+
+        if (is_string($validation)) {
+            echo $validation;
+
+            return false;
+        }
+
         if (!($this->isAllowedHeight($x1, 1, $this->height)
             && $this->isAllowedHeight($x2, 1, $this->height))) {
                 return false;
@@ -104,6 +140,13 @@ class Editor
 
     public function verticalFill($column, $y1, $y2, $color)
     {
+        $validation = $this->isValidParameters([
+            'column' => [$column, 'number'],
+            'Y1' => [$y1, 'number'],
+            'Y2' => [$y2, 'number'],
+            'color' => [$color, 'letter']
+        ]);
+
         if (!($this->isAllowedHeight($y1, 1, $this->height)
             && $this->isAllowedHeight($y2, 1, $this->height))) {
                 return false;
@@ -125,6 +168,11 @@ class Editor
 
     public function fillColor($x, $y, $newColor, $originalColor = false)
     {
+        $validation = $this->isValidParameters([
+            'X' => [$x, 'number'],
+            'Y' => [$y, 'number'],
+            'color' => [$newColor, 'letter']
+        ]);
         if (!($this->isInRange($x, $y))) {
             return false;
         }
@@ -175,5 +223,43 @@ class Editor
 
     public function isAllowedHeight($height, $minHeight, $maxHeight) {
         return ($height >= $minHeight && $height <= $maxHeight);
+    }
+
+    public function isValidParameters($parameters) {
+        $invalidParameters = [];
+
+        foreach ($parameters as $field => $values) {
+            switch ($values[1]) {
+                case 'number':
+                    if (!is_numeric($values[0])) {
+                        $invalidParameters[$field] = $values[1];
+                    }
+                    break;
+                case 'letter':
+                    if (!ctype_alpha($values[0])) {
+                        $invalidParameters[$field] = $values[1];
+                    }
+                    break;
+                default:
+                    $invalidParameters[$field] = $values[1];
+                    break;
+            }
+        }
+
+        if (sizeof($invalidParameters)) {
+            return $this->toString($invalidParameters);
+        }
+
+        return true;
+    }
+
+    public function toString($array) {
+        $result = '';
+
+        foreach ($array as $key => $value) {
+            $result .= ($key . ' must be a ' . $value . PHP_EOL);
+        }
+
+        return $result;
     }
 }

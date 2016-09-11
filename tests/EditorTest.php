@@ -64,10 +64,10 @@ class EditorTest extends TestCase
             ['O', 'C', 'C', 'C', 'C', 'C' ],
         ];
 
-        $this->editor->horizontalFill(6,2,6,'C');
+        $this->editor->horizontalFill(6, 2, 6, 'C');
         $this->assertSame($expected, $this->editor->showImage());
         $this->editor->clear();
-        $this->editor->horizontalFill(6,6,2,'C');
+        $this->editor->horizontalFill(6, 2, 6, 'C');
         $this->assertSame($expected, $this->editor->showImage());
     }
 
@@ -82,10 +82,10 @@ class EditorTest extends TestCase
             ['O', 'O', 'O', 'O', 'O', 'O' ],
         ];
 
-        $this->editor->verticalFill(2,1,5,'C');
+        $this->editor->verticalFill(2, 1, 5, 'C');
         $this->assertSame($expected, $this->editor->showImage());
         $this->editor->clear();
-        $this->editor->verticalFill(2,1,5,'C');
+        $this->editor->verticalFill(2, 5, 1, 'C');
         $this->assertSame($expected, $this->editor->showImage());
     }
 
@@ -123,5 +123,31 @@ class EditorTest extends TestCase
         $this->editor->setCanvas($custom);
         $this->editor->fillColor(4, 4, 'F');
         $this->assertSame($expected2, $this->editor->showImage());
+    }
+
+    public function testAll()
+    {
+        $expected = [
+            ['G', 'G', 'G', 'G', 'G', 'F' ],
+            ['G', 'H', 'H', 'H', 'A', 'F' ],
+            ['G', 'G', 'G', 'F', 'A', 'F' ],
+            ['G', 'G', 'F', 'F', 'A', 'F' ],
+            ['G', 'F', 'F', 'F', 'A', 'F' ],
+            ['F', 'F', 'F', 'F', 'A', 'F' ],
+        ];
+
+        $this->editor->fillColor(3, 4, 'G');
+        $this->editor->setDotColor(1, 6, 'F');
+        $this->editor->setDotColor(2, 5, 'F');
+        $this->editor->setDotColor(3, 4, 'F');
+        $this->editor->setDotColor(4, 3, 'F');
+        $this->editor->setDotColor(5, 2, 'F');
+        $this->editor->setDotColor(6, 1, 'F');
+        $this->editor->fillColor(6, 6, 'F');
+        $this->editor->horizontalFill(2, 5, 2, 'H');
+        $this->editor->verticalFill(5, 2, 6, 'A');
+        $this->assertSame($expected, $this->editor->showImage());
+        $this->editor->clear();
+        $this->assertSame($this->clear, $this->editor->showImage());
     }
 }
