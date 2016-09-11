@@ -237,6 +237,8 @@ class Editor
         if (!$isAllowed) {
             echo "Parameters must be within the allowed width and height." . PHP_EOL;
         }
+
+        return $isAllowed;
     }
 
     public function isInRange($width, $height) {
