@@ -231,8 +231,12 @@ class Editor
         $width = $width ?: $this->width;
         $height = $height ?: $this->height;
 
-        return ($this->isAllowedWidth($width, $this->MIN_WIDTH, $this->MAX_WIDTH)
+        $isAllowed = ($this->isAllowedWidth($width, $this->MIN_WIDTH, $this->MAX_WIDTH)
             && $this->isAllowedHeight($height, $this->MIN_HIEGHT, $this->MAX_HIEGHT));
+
+        if (!$isAllowed) {
+            echo "Parameters must be within the allowed width and height." . PHP_EOL;
+        }
     }
 
     public function isInRange($width, $height) {

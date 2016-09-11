@@ -14,6 +14,10 @@
 ```sh
     php -f Console.php
 ```
+or alternatively:
+```sh
+    ./Console.php
+```
 **Commands**
 
  1. **I M N**. Create a new M x N image with all pixels coloured white (O).
@@ -25,6 +29,7 @@
     Pixel (X,Y) belongs to R. Any other pixel which is the same colour as (X,Y) and shares a common side with any pixel in R also belongs to this region.
  7. **S**. Show the contents of the current image
  8. **X**. Terminate the session
+ 9. **?**. Show list of commands
 
 ## Running tests
 

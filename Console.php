@@ -16,28 +16,32 @@ class Console
             'I' => [
                 'create',
                 2,
-                'I M N - Create a new M x N image with all pixels coloured white (O).'
+                'I M N - Create a new M x N image with all pixels coloured white (O). Image must be atleast 1 x 1 and the maximum is 250 x 250.'
             ],
 
             'C' => [
                 'clear',
                 0,
-                'C - Clears the table, setting all pixels to white (O).'],
+                'C - Clears the table, setting all pixels to white (O).'
+            ],
 
             'L' => [
                 'setDotColor',
                 3,
-                'L X Y C - Colours the pixel (X, Y) with colour C.'],
+                'L X Y C - Colours the pixel (X, Y) with colour C.'
+            ],
 
             'V' => [
                 'verticalFill',
                 4,
-                'V X Y1 Y2 C - Draw a vertical segment of colour C in column X between rows Y1 and Y2.'],
+                'V X Y1 Y2 C - Draw a vertical segment of colour C in column X between rows Y1 and Y2.'
+            ],
 
             'H' => [
                 'horizontalFill',
                 4,
-                'H X1 X2 Y C - Draw a horizontal segment of colour C in row Y between columns X1 and X2.'],
+                'H X1 X2 Y C - Draw a horizontal segment of colour C in row Y between columns X1 and X2.'
+            ],
 
             'F' => [
                 'fillColor',
@@ -49,20 +53,26 @@ class Console
             'S' => [
                 'showImage',
                 0,
-                'S - Show the contents of the current image'],
+                'S - Show the contents of the current image'
+            ],
 
             'X' => [
                 'exit',
                 0,
-                'X - Terminate the session'],
+                'X - Terminate the session'
+            ],
+            '?' => [
+                'help',
+                0,
+                '? - Show list of commands'
+            ],
         ];
     }
 
     public function start()
     {
         $this->printn('Starting console.');
-
-
+        $this->showCommands();
         $this->readCommand();
         $this->printn('Closing console.');
 
