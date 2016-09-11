@@ -39,7 +39,7 @@ class EditorTest extends TestCase
         $this->assertSame($this->clear, $this->editor->showImage());
     }
 
-    public function testDot()
+    public function testSetDotColor()
     {
         $expected = [
             ['O', 'X', 'O', 'O', 'O', 'O' ],
@@ -49,7 +49,7 @@ class EditorTest extends TestCase
             ['O', 'O', 'O', 'O', 'O', 'O' ],
             ['O', 'O', 'O', 'O', 'O', 'O' ],
         ];
-        $this->editor->dot(2, 1, 'X');
+        $this->editor->setDotColor(2, 1, 'X');
         $this->assertSame($expected, $this->editor->showImage());
     }
 
@@ -65,7 +65,9 @@ class EditorTest extends TestCase
         ];
 
         $this->editor->horizontalFill(6,2,6,'C');
-
+        $this->assertSame($expected, $this->editor->showImage());
+        $this->editor->clear();
+        $this->editor->horizontalFill(6,6,2,'C');
         $this->assertSame($expected, $this->editor->showImage());
     }
 
@@ -79,8 +81,11 @@ class EditorTest extends TestCase
             ['O', 'C', 'O', 'O', 'O', 'O' ],
             ['O', 'O', 'O', 'O', 'O', 'O' ],
         ];
-        $this->editor->verticalFill(2,1,5,'C');
 
+        $this->editor->verticalFill(2,1,5,'C');
+        $this->assertSame($expected, $this->editor->showImage());
+        $this->editor->clear();
+        $this->editor->verticalFill(2,1,5,'C');
         $this->assertSame($expected, $this->editor->showImage());
     }
 
@@ -88,12 +93,35 @@ class EditorTest extends TestCase
     {
         $expected = [
             ['C', 'C', 'C', 'C', 'C', 'C' ],
-            ['C', 'X', 'X', 'X', 'X', 'X' ],
-            ['C', 'X', 'C', 'C', 'C', 'C' ],
-            ['C', 'X', 'C', 'C', 'X', 'C' ],
-            ['C', 'X', 'C', 'X', 'C', 'C' ],
-            ['X', 'C', 'C', 'C', 'C', 'C' ],
+            ['C', 'C', 'C', 'C', 'C', 'C' ],
+            ['C', 'C', 'C', 'C', 'C', 'C' ],
+            ['C', 'C', 'C', 'C', 'C', 'C' ],
+            ['C', 'C', 'C', 'C', 'C', 'C' ],
+            ['C', 'C', 'C', 'C', 'C', 'C' ],
         ];
-        $this->assertSame($this->expected, []);
+
+        $custom = [
+            ['O', 'O', 'O', 'O', 'O', 'F' ],
+            ['O', 'O', 'O', 'O', 'F', 'O' ],
+            ['O', 'O', 'O', 'F', 'O', 'O' ],
+            ['O', 'O', 'F', 'O', 'O', 'O' ],
+            ['O', 'F', 'O', 'O', 'O', 'O' ],
+            ['F', 'O', 'O', 'O', 'O', 'O' ],
+        ];
+
+        $expected2 = [
+            ['O', 'O', 'O', 'O', 'O', 'F' ],
+            ['O', 'O', 'O', 'O', 'F', 'F' ],
+            ['O', 'O', 'O', 'F', 'F', 'F' ],
+            ['O', 'O', 'F', 'F', 'F', 'F' ],
+            ['O', 'F', 'F', 'F', 'F', 'F' ],
+            ['F', 'F', 'F', 'F', 'F', 'F' ],
+        ];
+
+        $this->editor->fillColor(6, 6, 'C');
+        $this->assertSame($expected, $this->editor->showImage());
+        $this->editor->setCanvas($custom);
+        $this->editor->fillColor(4, 4, 'F');
+        $this->assertSame($expected2, $this->editor->showImage());
     }
 }

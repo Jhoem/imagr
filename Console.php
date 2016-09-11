@@ -14,7 +14,7 @@ class Console
         $this->allowedCommands = [
             'I' => 'create', /* */
             'C' => 'clear',
-            'L' => 'dot',
+            'L' => 'setDotColor',
             'V' => 'verticalFill',
             'H' => 'horizontalFill',
             'F' => 'colorFill',
@@ -62,10 +62,6 @@ class Console
     public function printn($var)
     {
         echo (is_array($var) ? json_encode($var, JSON_PRETTY_PRINT) : $var). PHP_EOL;
-    }
-
-    public function test($default = 'me') {
-        echo $default;
     }
 }
 

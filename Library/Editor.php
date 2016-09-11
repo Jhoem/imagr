@@ -32,10 +32,11 @@ class Editor
 
     public function setCanvas($canvas)
     {
-        if ($this->isAllowedDimensions(sizeof($canvas[0]), sizeof($canvas))) {
+        if (!$this->isAllowedDimensions(sizeof($canvas[0]), sizeof($canvas))) {
             return false;
         }
 
+        $this->canvas = [];
         $this->canvas = $canvas;
 
         return true;
@@ -61,13 +62,24 @@ class Editor
         return true;
     }
 
-    public function dot($x, $y, $color)
+    public function setDotColor($x, $y, $color)
     {
         if (!$this->isInRange($x, $y)) {
             return false;
         }
 
         $this->canvas[$y-1][$x-1] = $color;
+
+        return $this->canvas;
+    }
+
+    public function getDotColor($x, $y)
+    {
+        if (!$this->isInRange($x, $y)) {
+            return false;
+        }
+
+        return $this->canvas[$y-1][$x-1];
     }
 
     public function horizontalFill($row, $x1, $x2, $color)
@@ -83,9 +95,8 @@ class Editor
             $x2 = $temp;
         }
 
-
         for ($x1; $x1 <= $x2; $x1++) {
-            $this->dot($x1, $row, $color);
+            $this->setDotColor($x1, $row, $color);
         }
 
         return true;
@@ -106,14 +117,30 @@ class Editor
 
 
         for ($y1; $y1 <= $y2; $y1++) {
-            $this->dot($column, $y1, $color);
+            $this->setDotColor($column, $y1, $color);
         }
 
         return true;
     }
 
-    public function colorFill()
+    public function fillColor($x, $y, $newColor, $originalColor = false)
     {
+        if (!($this->isInRange($x, $y))) {
+            return false;
+        }
+
+        $color = $this->getDotColor($x, $y);
+
+        if ($color === $originalColor || $color === $newColor){
+            return false;
+        }
+
+        $this->setDotColor($x, $y, $newColor);
+
+        $this->fillColor($x-1, $y, $newColor, $originalColor); //Left
+        $this->fillColor($x, $y-1, $newColor, $originalColor); //Top
+        $this->fillColor($x+1, $y, $newColor, $originalColor); //Right
+        $this->fillColor($x, $y+1, $newColor, $originalColor); //Bottom
     }
 
     public function showImage()
@@ -128,7 +155,7 @@ class Editor
         return $this->canvas;
     }
 
-    private function isAllowedDimensions($width = false, $height = false)
+    public function isAllowedDimensions($width = false, $height = false)
     {
         $width = $width ?: $this->width;
         $height = $height ?: $this->height;
@@ -137,17 +164,16 @@ class Editor
             && $this->isAllowedHeight($height, $this->MIN_HIEGHT, $this->MAX_HIEGHT));
     }
 
-    private function isInRange($height, $width) {
-        return ($this->isAllowedWidth($height, $this->MIN_WIDTH, $this->width)
+    public function isInRange($width, $height) {
+        return ($this->isAllowedWidth($width, $this->MIN_WIDTH, $this->width)
             && $this->isAllowedHeight($height, $this->MIN_HIEGHT, $this->height));
     }
 
-    private function isAllowedWidth($width, $minWidth, $maxWidth) {
-
+    public function isAllowedWidth($width, $minWidth, $maxWidth) {
         return ($width >= $minWidth && $width <= $maxWidth);
     }
 
-    private function isAllowedHeight($height, $minHeight, $maxHeight) {
+    public function isAllowedHeight($height, $minHeight, $maxHeight) {
         return ($height >= $minHeight && $height <= $maxHeight);
     }
 }
